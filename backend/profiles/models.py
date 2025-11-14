@@ -3,15 +3,13 @@ from django.db import models
 
 class DiscordProfile(models.Model):
     GERMAN_LEVELS = [
-        ("I don't know anything", "none", "Start with basic greetings and alphabet."),
-        ("A1 - Beginner", "A1", "Focus on simple sentences and common verbs."),
-        ("A2 - Elementary", "A2", "Introduce past tense and everyday vocabulary."),
-        ("B1 - Intermediate", "B1", "Practice conversations and grammar nuances."),
-        ("B2 - Upper Intermediate", "B2",
-         "Refine fluency and handle abstract topics."),
-        ("C1 - Advanced", "C1", "Work on precision, idioms, and native-like flow."),
-        ("C2 - Mastery / Near-native", "C2",
-         "Challenge with native-level texts and debates."),
+        ("none", "I don't know anything", "Start with basic greetings and alphabet."),
+        ("A1", "A1 - Beginner", "Focus on simple sentences and common verbs."),
+        ("A2", "A2 - Elementary", "Introduce past tense and everyday vocabulary."),
+        ("B1", "B1 - Intermediate", "Practice conversations and grammar nuances."),
+        ("B2", "B2 - Upper Intermediate", "Refine fluency and handle abstract topics."),
+        ("C1", "C1 - Advanced", "Work on precision, idioms, and native-like flow."),
+        ("C2", "C2 - Mastery / Near-native", "Challenge with native-level texts and debates."),
     ]
 
     MOTHER_LANGUAGES = [
@@ -33,20 +31,20 @@ class DiscordProfile(models.Model):
     ]
 
     TARGET_LEVELS = [
-        ("A1 - Beginner", "A1"),
-        ("A2 - Elementary", "A2"),
-        ("B1 - Intermediate", "B1"),
-        ("B2 - Upper Intermediate", "B2"),
-        ("C1 - Advanced", "C1"),
-        ("C2 - Mastery / Near-native", "C2"),
+        ("A1", "A1 - Beginner"),
+        ("A2", "A2 - Elementary"),
+        ("B1", "B1 - Intermediate"),
+        ("B2", "B2 - Upper Intermediate"),
+        ("C1", "C1 - Advanced"),
+        ("C2", "C2 - Mastery / Near-native"),
     ]
 
     CORRECTION_STYLES = [
-        ("Gentle", "gentle"),
-        ("Direct", "direct"),
-        ("Explanatory", "explanatory"),
-        ("Minimal", "minimal"),
-        ("Native-like", "native"),
+        ("gentle", "Gentle"),
+        ("direct", "Direct"),
+        ("explanatory", "Explanatory"),
+        ("minimal", "Minimal"),
+        ("native-like", "Native"),
     ]
 
     discord_user_id = models.BigIntegerField(

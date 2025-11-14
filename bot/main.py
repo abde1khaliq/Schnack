@@ -3,6 +3,7 @@ from decouple import config
 from discord.ext import commands
 from views import PrefrencesView
 from embeds import PreferenceEmbed
+from collections import defaultdict
 
 GUILD_ID = discord.Object(id=1438445083824357469) if config(
     'DEVELOPMENT') == 'true' else None
@@ -11,7 +12,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 
-class Lingual(commands.Bot):
+class Schnack(commands.Bot):
     def __init__(self, command_prefix, *, intents):
         super().__init__(command_prefix=command_prefix, intents=intents)
         self.seen_users = set()
@@ -24,7 +25,8 @@ class Lingual(commands.Bot):
             print(f'Error syncing commands: {e}')
 
 
-client = Lingual(command_prefix="!", intents=intents)
+client = Schnack(command_prefix="!", intents=intents)
+client.user_preferences = defaultdict(dict)
 
 
 @client.tree.command(name="setup", description="Set up your Schnack bot based on your preferences.", guild=GUILD_ID)
