@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 "discord.py" = "*"
 python-decouple = "*"
+django = "*"
+mysqlclient = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 

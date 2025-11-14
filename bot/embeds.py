@@ -1,7 +1,10 @@
 import discord
 
 PreferenceEmbed = discord.Embed(
-    title="🌍 Language Setup",
-    description="Select your mother language and the language you're learning.",
+    title="🌍 Let's Get You Set Up!",
+    description=(
+        "Choose your **mother language** so Schnack can speak your way.\n"
+        "This helps personalize responses and make your experience smoother."
+    ),
     color=int('f26522', 16)
 )
