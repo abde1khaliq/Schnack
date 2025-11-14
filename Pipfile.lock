@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d368890ce49922dd54d0d2a4357cb886a7f4ad7168da90f0264562c22521c037"
+            "sha256": "3afea514138328d3736a188cdf68390a44a3c1f7926792de898f82725b7efd7e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -147,6 +147,7 @@
                 "sha256:ff15c147b2ad66da1f2cbb0622313f2242d8e6e8f9b79b5206c84523a4473248",
                 "sha256:ff5e771f5dcbc81c64898c597a434f7682f2259e0cd666932a913d53d1341d1a"
             ],
+            "index": "pypi",
             "markers": "python_version >= '3.9'",
             "version": "==3.13.2"
         },
@@ -199,6 +200,15 @@
             "index": "pypi",
             "markers": "python_version >= '3.9'",
             "version": "==6.1.0"
+        },
+        "djangorestframework": {
+            "hashes": [
+                "sha256:166809528b1aced0a17dc66c24492af18049f2c9420dbd0be29422029cfc3ff7",
+                "sha256:33a59f47fb9c85ede792cbf88bde71893bcda0667bc573f784649521f1102cec"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.9'",
+            "version": "==3.16.1"
         },
         "frozenlist": {
             "hashes": [

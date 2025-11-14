@@ -9,6 +9,8 @@ python-decouple = "*"
 django = "*"
 mysqlclient = "*"
 django-debug-toolbar = "*"
+djangorestframework = "*"
+aiohttp = "*"
 
 [dev-packages]
 
