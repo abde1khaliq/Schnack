@@ -27,14 +27,14 @@ class Lingual(commands.Bot):
 client = Lingual(command_prefix="!", intents=intents)
 
 
-@client.tree.command(name="settings", description="Set your preferred Lingual settings", guild=GUILD_ID)
-async def language_setup(interaction: discord.Interaction):
-    await interaction.response.send_message(embed=PreferenceEmbed, ephemeral=True, view=PrefrencesView())
+@client.tree.command(name="setup", description="Set up your Schnack bot based on your preferences.", guild=GUILD_ID)
+async def setup(interaction: discord.Interaction):
+    view = await PrefrencesView.create()
+    await interaction.response.send_message(embed=PreferenceEmbed, ephemeral=True, view=view)
     if interaction.guild == None:
         pass
     else:
         await interaction.followup.send(
-            "📬 Want to continue enhancing your deutsch privately? Just DM me!", ephemeral=True)
-
+            "📬 Want to continue learning german? Just DM me!", ephemeral=True)
 
 client.run(config('LINGUAL_BOT_TOKEN'))

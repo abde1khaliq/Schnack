@@ -1,50 +1,65 @@
 import discord
 
-
-class MotherLanguageDropdown(discord.ui.Select):
-    def __init__(self):
-        options = [
-            discord.SelectOption(label='Arabic', value='ar'),
-            discord.SelectOption(label='English', value='en'),
-            discord.SelectOption(label='Spanish', value='es'),
-            discord.SelectOption(label='French', value='fr'),
-            discord.SelectOption(label='German', value='de'),
-            discord.SelectOption(label='Turkish', value='tr'),
-            discord.SelectOption(label='Russian', value='ru'),
-            discord.SelectOption(label='Hindi', value='hi'),
-            discord.SelectOption(label='Chinese (Mandarin)', value='zh'),
-            discord.SelectOption(label='Japanese', value='ja'),
-            discord.SelectOption(label='Korean', value='ko'),
-            discord.SelectOption(label='Portuguese', value='pt'),
-            discord.SelectOption(label='Italian', value='it'),
-            discord.SelectOption(label='Dutch', value='nl'),
-            discord.SelectOption(label='Swahili', value='sw'),
-        ]
-
+class MotherLanguagesDropdown(discord.ui.Select):
+    def __init__(self, options):
         super().__init__(
-            placeholder="Select your mother language",
+            placeholder="🌍 Choose your native (mother) language",
             min_values=1,
             max_values=1,
             options=options
         )
 
     async def callback(self, interaction: discord.Interaction):
-        # Soon going to implement the actual language set logic.
-        pass
+        selected = self.values[0]
+        await interaction.response.send_message(
+            f"✅ Your native language has been set to **{selected}**.",
+            ephemeral=True
+        )
 
-
-class LearningLanguageDropdown(discord.ui.Select):
-    def __init__(self):
-        options = [
-            discord.SelectOption(label='German', value='de', default=True),
-        ]
+class CorrectionStylesDropdown(discord.ui.Select):
+    def __init__(self, options):
         super().__init__(
-            placeholder="Select the language you want to learn",
+            placeholder="🛠️ Choose your preferred correction style",
             min_values=1,
             max_values=1,
-            options=options,
+            options=options
         )
 
     async def callback(self, interaction: discord.Interaction):
-        # Soon going to implement the actual language set logic.
-        pass
+        selected = self.values[0]
+        await interaction.response.send_message(
+            f"✅ Correction style set to **{selected}**. We'll tailor feedback accordingly.",
+            ephemeral=True
+        )
+
+class TargetLevelsDropdown(discord.ui.Select):
+    def __init__(self, options):
+        super().__init__(
+            placeholder="🎯 Select the German level you aim to reach",
+            min_values=1,
+            max_values=1,
+            options=options
+        )
+
+    async def callback(self, interaction: discord.Interaction):
+        selected = self.values[0]
+        await interaction.response.send_message(
+            f"✅ Your target German level is now set to **{selected}**.",
+            ephemeral=True
+        )
+
+class GermanLevelsDropdown(discord.ui.Select):
+    def __init__(self, options):
+        super().__init__(
+            placeholder="📚 Select your current German proficiency level",
+            min_values=1,
+            max_values=1,
+            options=options
+        )
+
+    async def callback(self, interaction: discord.Interaction):
+        selected = self.values[0]
+        await interaction.response.send_message(
+            f"✅ Your current German level is set to **{selected}**.",
+            ephemeral=True
+        )
