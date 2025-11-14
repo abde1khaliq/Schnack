@@ -49,7 +49,8 @@ class DiscordProfile(models.Model):
         ("Native-like", "native"),
     ]
 
-    discord_user_id = models.BigIntegerField(primary_key=True)
+    discord_user_id = models.BigIntegerField(
+        primary_key=True, max_length=18, unique=True)
     mother_language = models.CharField(max_length=50, choices=MOTHER_LANGUAGES)
     german_level = models.CharField(max_length=50, choices=[(
         label, value) for label, value, _ in GERMAN_LEVELS], default="none")
