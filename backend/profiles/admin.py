@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Discord_Profile
+from .models import DiscordProfile
 
-@admin.register(Discord_Profile)
+@admin.register(DiscordProfile)
 class DiscordProfileAdmin(admin.ModelAdmin):
     list_display = (
         'discord_user_id',

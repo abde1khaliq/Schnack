@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Discord_Profile(models.Model):
+class DiscordProfile(models.Model):
     GERMAN_LEVELS = [
         ("I don't know anything", "none", "Start with basic greetings and alphabet."),
         ("A1 - Beginner", "A1", "Focus on simple sentences and common verbs."),

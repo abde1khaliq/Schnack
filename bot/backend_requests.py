@@ -1,10 +1,11 @@
 import discord
 import aiohttp
 
+backend_url = 'http://127.0.0.1:8000/schnack_api/v1/'
 
 async def get_mother_language_options():
     async with aiohttp.ClientSession() as session:
-        async with session.get('http://127.0.0.1:8000/schnack_api/v1/get_mother_languages/') as response:
+        async with session.get(f'{backend_url}get_mother_languages/') as response:
             data = await response.json()
 
     return [discord.SelectOption(label=item["label"], value=item["value"]) for item in data]
@@ -12,7 +13,7 @@ async def get_mother_language_options():
 
 async def get_correction_style_options():
     async with aiohttp.ClientSession() as session:
-        async with session.get('http://127.0.0.1:8000/schnack_api/v1/get_correction_styles/') as response:
+        async with session.get(f'{backend_url}get_mother_languages/') as response:
             data = await response.json()
 
     return [discord.SelectOption(label=item["label"], value=item["value"]) for item in data]
@@ -20,7 +21,7 @@ async def get_correction_style_options():
 
 async def get_target_level_options():
     async with aiohttp.ClientSession() as session:
-        async with session.get('http://127.0.0.1:8000/schnack_api/v1/get_target_levels/') as response:
+        async with session.get(f'{backend_url}get_mother_languages/') as response:
             data = await response.json()
 
     return [discord.SelectOption(label=item["label"], value=item["value"]) for item in data]
@@ -28,7 +29,13 @@ async def get_target_level_options():
 
 async def get_german_level_options():
     async with aiohttp.ClientSession() as session:
-        async with session.get('http://127.0.0.1:8000/schnack_api/v1/get_german_levels/') as response:
+        async with session.get(f'{backend_url}get_mother_languages/') as response:
             data = await response.json()
 
     return [discord.SelectOption(label=item["label"], value=item["value"]) for item in data]
+
+
+async def send_user_preference_to_backend():
+    async with aiohttp.ClientSession() as session:
+        async with session.post(f'{backend_url}get_mother_languages/'):
+            pass

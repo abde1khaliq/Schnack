@@ -10,5 +10,5 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += [
         path('__debug__/', include(debug_toolbar.urls)),
-        path('schnack_api/v1', include('schnack.urls')),
+        path('schnack_api/v1/', include('profiles.urls')),
     ]
