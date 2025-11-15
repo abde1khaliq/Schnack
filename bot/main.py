@@ -28,22 +28,31 @@ class Schnack(commands.Bot):
         if message.author.bot:
             return
 
-        if message.guild is None:
-            try:
-                async with message.channel.typing():
-                    response = await respond_to_user(message.author.id, message.content)
+        user_checker = await check_if_user_exists(message.author.id)
+        if user_checker == 200:
+            if message.guild is None:
+                try:
+                    async with message.channel.typing():
+                        response = await respond_to_user(message.author.id, message.content)
 
-                if response:
-                    await message.channel.send(response['response'])
-                else:
-                    await message.channel.send("Sorry, I couldn't generate a response.")
+                    if response:
+                        await message.channel.send(response['response'])
+                    else:
+                        await message.channel.send("Sorry, I couldn't generate a response.")
+                except Exception as error:
+                    print(
+                        f"⚠️ Error responding to user {message.author.id}: {error}")
+                    await message.channel.send("Something went wrong while processing your message. ")
+        elif user_checker == 404:
+            try:
+                await message.channel.send(f"Hey {message.author.display_name}, Make sure to setup your preferences using `/setup` so I can personalize your experience!")
             except Exception as error:
-                print(
-                    f"⚠️ Error responding to user {message.author.id}: {error}")
-                await message.channel.send(
-                    "Something went wrong while processing your message. "
-                    "Make sure you've set up your preferences using `/setup`"
-                )
+                print('An error occured notifying the user to set up their preferences')
+        else:
+            try:
+                await message.channel.send(f"Hey {message.author.display_name}, I'm having trouble responding at the moment. Try again later")
+            except Exception as error:
+                print('An error occured notifying the user to set up their preferences')
 
 
 client = Schnack(command_prefix="!", intents=intents)
