@@ -30,7 +30,9 @@ class Schnack(commands.Bot):
 
         if message.guild is None:
             try:
-                response = await respond_to_user(message.author.id, message.content)
+                async with message.channel.typing():
+                    response = await respond_to_user(message.author.id, message.content)
+
                 if response:
                     await message.channel.send(response['response'])
                 else:
@@ -38,7 +40,10 @@ class Schnack(commands.Bot):
             except Exception as error:
                 print(
                     f"⚠️ Error responding to user {message.author.id}: {error}")
-                await message.channel.send("Something went wrong while processing your message. make sure you've set up your preferences using `/setup`")
+                await message.channel.send(
+                    "Something went wrong while processing your message. "
+                    "Make sure you've set up your preferences using `/setup`"
+                )
 
 
 client = Schnack(command_prefix="!", intents=intents)
