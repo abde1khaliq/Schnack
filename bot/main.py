@@ -4,7 +4,7 @@ from discord.ext import commands
 from views import PrefrencesView
 from embeds import PreferenceEmbed
 from collections import defaultdict
-from backend_requests import check_if_user_exists
+from backend_requests import check_if_user_exists, respond_to_user
 
 GUILD_ID = discord.Object(id=1438445083824357469) if config(
     'DEVELOPMENT') == 'true' else None
@@ -24,6 +24,22 @@ class Schnack(commands.Bot):
         except Exception as e:
             print(f'Error syncing commands: {e}')
 
+    async def on_message(self, message):
+        if message.author.bot:
+            return
+
+        if message.guild is None:
+            try:
+                response = await respond_to_user(message.author.id, message.content)
+                if response:
+                    await message.channel.send(response['response'])
+                else:
+                    await message.channel.send("Sorry, I couldn't generate a response.")
+            except Exception as error:
+                print(
+                    f"⚠️ Error responding to user {message.author.id}: {error}")
+                await message.channel.send("Something went wrong while processing your message. make sure you've set up your preferences using `/setup`")
+
 
 client = Schnack(command_prefix="!", intents=intents)
 client.user_preferences = defaultdict(dict)
@@ -33,7 +49,7 @@ client.user_preferences = defaultdict(dict)
 async def setup(interaction: discord.Interaction):
     user_checker = await check_if_user_exists(interaction.user.id)
     if user_checker == 200:
-        await interaction.response.send_message('You have already set your preferences. use `/update-preferences` to update them.')
+        await interaction.response.send_message('You have already set your preferences. use `/update-preferences` to update them.', ephemeral=True)
     else:
         view = await PrefrencesView.create()
         await interaction.response.send_message(embed=PreferenceEmbed, ephemeral=True, view=view)

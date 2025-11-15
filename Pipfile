@@ -11,6 +11,8 @@ mysqlclient = "*"
 django-debug-toolbar = "*"
 djangorestframework = "*"
 aiohttp = "*"
+google-generativeai = "*"
+google-genai = "*"
 
 [dev-packages]
 

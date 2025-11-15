@@ -5,6 +5,7 @@ from .models import DiscordProfile
 class DiscordProfileAdmin(admin.ModelAdmin):
     list_display = (
         'discord_user_id',
+        'discord_username',
         'mother_language',
         'german_level',
         'target_level',

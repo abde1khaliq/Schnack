@@ -4,12 +4,14 @@ from .views import (
     get_correction_styles,
     get_target_levels,
     get_german_levels,
-    DiscordProfileViewset
+    DiscordProfileViewset,
+    GeminiResponseViewSet
 )
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register('user_preferences', DiscordProfileViewset, basename='send_user_preference')
+router.register(r'gemini', GeminiResponseViewSet, basename='gemini')
 
 urlpatterns = [
     path('get_mother_languages/', get_mother_languages, name='get_mother_languages'),

@@ -101,6 +101,7 @@ class UserPreferenceSubmitButton(discord.ui.Button):
 
         payload = {
             "discord_user_id": interaction.user.id,
+            "discord_username": interaction.user.global_name,
             **preferences,
             "onboarding_complete": True
         }

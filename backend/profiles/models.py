@@ -46,8 +46,9 @@ class DiscordProfile(models.Model):
         ("Minimal", "minimal"),
     ]
 
-    discord_user_id = models.BigIntegerField(
-        primary_key=True, max_length=18, unique=True)
+    discord_user_id = models.IntegerField(
+        primary_key=True, unique=True)
+    discord_username = models.CharField(null=True, blank=True)
     mother_language = models.CharField(max_length=50, choices=MOTHER_LANGUAGES)
     german_level = models.CharField(max_length=100, choices=GERMAN_LEVELS)
     target_level = models.CharField(max_length=50, choices=TARGET_LEVELS)

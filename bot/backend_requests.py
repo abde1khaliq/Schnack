@@ -64,3 +64,12 @@ async def check_if_user_exists(user_id):
                 return response.status
     except Exception as error:
         print('Checking if used id exists failed silently: ', error)
+
+
+async def respond_to_user(discord_user_id, user_input):
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.post(f'{backend_url}gemini/respond/', json={"discord_user_id": discord_user_id, "user_input": user_input}) as response:
+                return await response.json()
+    except Exception as error:
+        print('Responding to user failed silently: ', error)
