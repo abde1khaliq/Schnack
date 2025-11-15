@@ -21,7 +21,7 @@ def get_target_levels(request):
 
 def get_german_levels(request):
     choices = DiscordProfile.GERMAN_LEVELS
-    return JsonResponse([{"label": label, "value": value} for label, value, _ in choices], safe=False)
+    return JsonResponse([{"label": label, "value": value} for label, value in choices], safe=False)
 
 
 class DiscordProfileViewset(mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):

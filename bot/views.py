@@ -5,7 +5,7 @@ from backend_requests import get_correction_style_options, get_mother_language_o
 
 class PrefrencesView(discord.ui.View):
     def __init__(self, mother_language_options, correction_style_options, target_level_options, german_level_options):
-        super().__init__(timeout=None)
+        super().__init__(timeout=100)
         self.add_item(MotherLanguagesDropdown(mother_language_options))
         self.add_item(GermanLevelsDropdown(german_level_options))
         self.add_item(TargetLevelsDropdown(target_level_options))

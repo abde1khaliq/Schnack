@@ -1,5 +1,5 @@
 import discord
-from backend_requests import send_user_preference_to_backend
+from backend_requests import save_user_preference_to_backend
 
 
 class MotherLanguagesDropdown(discord.ui.Select):
@@ -94,7 +94,10 @@ class UserPreferenceSubmitButton(discord.ui.Button):
         super().__init__(label='Save Preferences', style=discord.ButtonStyle.success)
 
     async def callback(self, interaction: discord.Interaction):
-        preferences = interaction.client.user_preferences[interaction.user.id]
+        await interaction.response.defer(ephemeral=True)
+
+        preferences = interaction.client.user_preferences.get(
+            interaction.user.id, {})
 
         payload = {
             "discord_user_id": interaction.user.id,
@@ -102,8 +105,15 @@ class UserPreferenceSubmitButton(discord.ui.Button):
             "onboarding_complete": True
         }
 
-        response = await send_user_preference_to_backend(payload)
-        if response == 200:
-            await interaction.response.send_message("I've saved your preferences successfully. Wohoo! 😎", ephemeral=True)
-        elif response == 400:
-            await interaction.response.send_message("I've tried to save your preferences but i think you missed a dropdown. 😣", ephemeral=True)
+        response = await save_user_preference_to_backend(payload)
+
+        if response[0] == 201:
+            await interaction.followup.send("I've saved your preferences successfully. Wohoo! 😎", ephemeral=True)
+        elif response[0] == 400:
+            error_lines = [
+                f'🔸 **{field.capitalize()}**: {message[0].capitalize()}'
+                for field, message in response[1].items()
+            ]
+            await interaction.followup.send("\n".join(error_lines), ephemeral=True)
+        else:
+            await interaction.followup.send("⚠️ Unexpected error occurred. Please try again later.", ephemeral=True)
