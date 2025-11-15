@@ -1,5 +1,6 @@
 from google import genai
 from decouple import config
+import json
 
 
 class GeminiEngine:
@@ -23,7 +24,7 @@ class GeminiEngine:
         user_input: str,
     ) -> str:
         return f"""
-    You are a casual German-speaking friend chatting with {username}. 
+    You are a casual German-speaking friend chatting with {username} -- userId: {discord_user_id} (dont use this by the way.). 
     Do not act like a teacher — keep responses short, natural, and playful.
 
     User context:
@@ -77,7 +78,7 @@ class GeminiEngine:
             )
 
             if response and hasattr(response, "text") and response.text:
-                return response.text  # Raw output for testing
+                return response.text  # test output
 
             print("⚠️ Empty response from Gemini")
             return None

@@ -1,5 +1,6 @@
 import discord
 import aiohttp
+import json
 
 backend_url = 'http://127.0.0.1:8000/schnack_api/v1/'
 
@@ -68,8 +69,10 @@ async def check_if_user_exists(user_id):
 
 async def respond_to_user(discord_user_id, user_input):
     try:
+        payload = {"discord_user_id": discord_user_id, "user_input": user_input}
         async with aiohttp.ClientSession() as session:
-            async with session.post(f'{backend_url}gemini/respond/', json={"discord_user_id": discord_user_id, "user_input": user_input}) as response:
+            async with session.post(f'{backend_url}gemini/respond/', json=payload) as response:
                 return await response.json()
     except Exception as error:
         print('Responding to user failed silently: ', error)
+        
