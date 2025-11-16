@@ -13,7 +13,16 @@ class GeminiEngine:
             print(f"⚠️ Error initializing Gemini client: {error}")
             self.client = None
 
-    def generate_prompt_based_on_user_preferences(
+    def format_history(self, history: list[dict]) -> str:
+        """
+        Converts a list of message history dicts into a readable dialogue format.
+        """
+        return "\n".join(
+            f"User: {msg['user_message']}\nSchnack: {msg['schnack_response']}"
+            for msg in history if msg['user_message'] or msg['schnack_response']
+        )
+
+    def build_prompt(
         self,
         discord_user_id: int,
         username: str,
@@ -22,30 +31,43 @@ class GeminiEngine:
         user_target_level: str,
         user_correction_style: str,
         user_input: str,
+        formatted_history: str
     ) -> str:
-        return f"""
-    You are a casual German-speaking friend chatting with {username} -- userId: {discord_user_id} (dont use this by the way.). 
-    Do not act like a teacher — keep responses short, natural, and playful.
+        prompt = f"""
+        You are a casual German-speaking friend named Schnack chatting with {username} (userId: {discord_user_id} — do not mention this).
 
-    User context:
-    - Current German Level: {user_german_level}
-    - Target Level: {user_target_level}
-    - Mother Language: {user_mother_language}
-    - Correction Style: {user_correction_style}
+        🎯 Your mission:
+        - Keep the conversation flowing in German.
+        - Be playful, natural, and brief — not a teacher.
+        - Correct mistakes based on their correction style using Discord markdown (**bold**, *italic*, `inline code`).
+        - Never translate or explain unless asked.
+        - If the user writes in another language, kindly nudge them back to German.
+        - Do not start every response with greetings like "Hallo" or "Hey".
+        - Do not ask questions unless the user explicitly asks you something.
+        - Vary your sentence openings and avoid repetitive phrasing.
 
-    The user's latest German message:
-    > {user_input}
+        🧠 User profile:
+        - German Level: {user_german_level}
+        - Target Level: {user_target_level}
+        - Mother Language: {user_mother_language}
+        - Correction Style: {user_correction_style}
 
-    Your name is: Schnack.
-    
-    Guidelines:
-    - Respond ONLY in German. If the user writes in another language, remind them kindly to switch back to German.
-    - Keep replies short and conversational — no long explanations.
-    - Do not translate or explain anything unless the user explicitly asks for the meaning of a word or phrase.
-    - If they make a mistake (grammar, verbs, articles), correct it briefly and clearly using Discord markdown (**bold**, *italic*, `inline code`).
-    - Avoid unnecessary spacing or formatting. Keep it tight and natural.
-    - Your goal: keep the conversation flowing in German, make it fun, and nudge them to improve by responding directly to what they say.
-    """
+        ⚡ Response rules:
+        - Respond directly to the latest user message.
+        - If correction is needed, apply it inline and continue naturally.
+        - Keep tone light, witty, and conversational — like a friend hanging out.
+        - Avoid filler, avoid unnecessary questions, avoid repeating greetings.
+        - Use short sentences, emojis sparingly, and natural German slang if appropriate.
+        - Use emojis ONLY IF NEEDED, otherwise dont highlight text or bolden it. just send normal text.
+        - If you'll ever explain to the user. use the user mother language to explain anything and give an example.
+
+        💬 Conversation so far:
+        {formatted_history}
+
+        🆕 Latest user message:
+        User: {user_input}
+        """
+        return prompt
 
     def get_response(
         self,
@@ -56,13 +78,15 @@ class GeminiEngine:
         user_target_level: str,
         user_correction_style: str,
         user_input: str,
+        user_message_history: list[dict]
     ) -> str | None:
         if not self.client:
             print("⚠️ Gemini client is not initialized.")
             return None
 
         try:
-            prompt = self.generate_prompt_based_on_user_preferences(
+            formatted_history = self.format_history(user_message_history)
+            prompt = self.build_prompt(
                 discord_user_id=discord_user_id,
                 username=username,
                 user_german_level=user_german_level,
@@ -70,6 +94,7 @@ class GeminiEngine:
                 user_target_level=user_target_level,
                 user_correction_style=user_correction_style,
                 user_input=user_input,
+                formatted_history=formatted_history
             )
 
             response = self.client.models.generate_content(
@@ -78,7 +103,8 @@ class GeminiEngine:
             )
 
             if response and hasattr(response, "text") and response.text:
-                return response.text  # test output
+                print("✅ Gemini Response:\n", response.text)
+                return response.text
 
             print("⚠️ Empty response from Gemini")
             return None

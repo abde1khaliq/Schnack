@@ -63,7 +63,7 @@ class DiscordProfile(models.Model):
 
 
 class MessageHistory(models.Model):
-    user = models.ForeignKey(DiscordProfile, on_delete=models.CASCADE)
+    user = models.ForeignKey(DiscordProfile, on_delete=models.CASCADE, related_name='user_message_history')
     user_message = models.TextField()
     schnack_response = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
