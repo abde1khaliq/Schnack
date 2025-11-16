@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import DiscordProfile
+from .models import DiscordProfile, MessageHistory
 
 @admin.register(DiscordProfile)
 class DiscordProfileAdmin(admin.ModelAdmin):
@@ -24,3 +24,7 @@ class DiscordProfileAdmin(admin.ModelAdmin):
     search_fields = ('discord_user_id',)
     ordering = ('-last_active_at',)
     readonly_fields = ('created_at', 'last_active_at')
+
+@admin.register(MessageHistory)
+class MessageHistoryAdmin(admin.ModelAdmin):
+    list_display = ['user', 'user_message', 'schnack_response']

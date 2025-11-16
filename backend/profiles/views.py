@@ -66,7 +66,12 @@ class GeminiResponseViewSet(viewsets.GenericViewSet):
             discord_user_id = serializer.validated_data['discord_user_id']
             user_input = serializer.validated_data['user_input']
 
-            user_message_history = MessageHistory.objects.filter(user=discord_user_id)
+            user_message_history = (
+                MessageHistory.objects
+                .filter(user=discord_user_id)
+                .order_by('-created_at')[:10]
+            )
+
             history = [
                 {
                     "user_message": msg.user_message,
