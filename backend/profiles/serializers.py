@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import DiscordProfile
+from .models import DiscordProfile, MessageHistory
 
 
 class DiscordProfileSerializer(serializers.ModelSerializer):
@@ -8,6 +8,13 @@ class DiscordProfileSerializer(serializers.ModelSerializer):
         fields = ['discord_user_id', 'discord_username', 'mother_language', 'german_level', 'target_level',
                   'correction_style', 'onboarding_complete', 'created_at', 'last_active_at']
 
+
 class GeminiResponseRequirementSerializer(serializers.Serializer):
-        discord_user_id = serializers.IntegerField()
-        user_input = serializers.CharField()
+    discord_user_id = serializers.IntegerField()
+    user_input = serializers.CharField()
+
+
+class UserHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MessageHistory
+        fields = ['id', 'user', 'user_message', 'schnack_response', 'created_at']

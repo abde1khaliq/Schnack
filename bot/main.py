@@ -4,7 +4,7 @@ from discord.ext import commands
 from views import PrefrencesView
 from embeds import PreferenceEmbed
 from collections import defaultdict
-from backend_requests import check_if_user_exists, respond_to_user
+from backend_requests import check_if_user_exists, respond_to_user, save_user_history
 
 GUILD_ID = discord.Object(id=1438445083824357469) if config(
     'DEVELOPMENT') == 'true' else None
@@ -31,12 +31,15 @@ class Schnack(commands.Bot):
         user_checker = await check_if_user_exists(message.author.id)
         if user_checker == 200:
             if message.guild is None:
+                user_id = message.author.id
+                self.user_history[user_id]["user_message"] = message.content
                 try:
                     async with message.channel.typing():
                         response = await respond_to_user(message.author.id, message.content)
-
                     if response:
                         await message.channel.send(response['response'])
+                        self.user_history[user_id]["schnack_response"] = response["response"]
+                        await save_user_history(user_id=user_id, user_message=self.user_history[user_id]["user_message"], schnack_response=self.user_history[user_id]["schnack_response"])
                     else:
                         await message.channel.send("Sorry, I couldn't generate a response.")
                 except Exception as error:
@@ -57,6 +60,8 @@ class Schnack(commands.Bot):
 
 client = Schnack(command_prefix="!", intents=intents)
 client.user_preferences = defaultdict(dict)
+client.user_history = defaultdict(
+    lambda: {"user_message": None, "schnack_response": None})
 
 
 @client.tree.command(name="setup", description="Set up your Schnack bot based on your preferences.", guild=GUILD_ID)

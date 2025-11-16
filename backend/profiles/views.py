@@ -2,8 +2,8 @@ from rest_framework.decorators import action
 from rest_framework import viewsets, mixins, status
 from rest_framework.response import Response
 from django.http import JsonResponse
-from .models import DiscordProfile
-from .serializers import DiscordProfileSerializer, GeminiResponseRequirementSerializer
+from .models import DiscordProfile, MessageHistory
+from .serializers import DiscordProfileSerializer, GeminiResponseRequirementSerializer, UserHistorySerializer
 from .gemini_engine import GeminiEngine
 
 
@@ -32,6 +32,11 @@ class DiscordProfileViewset(mixins.RetrieveModelMixin, mixins.CreateModelMixin, 
     queryset = DiscordProfile.objects.all()
 
 
+class UserHistoryViewSet(mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.ListModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
+    serializer_class = UserHistorySerializer
+    queryset = MessageHistory.objects.all()
+
+
 class GeminiResponseViewSet(viewsets.GenericViewSet):
     serializer_class = GeminiResponseRequirementSerializer
 
@@ -45,7 +50,8 @@ class GeminiResponseViewSet(viewsets.GenericViewSet):
             user_input = serializer.validated_data['user_input']
 
             try:
-                user = DiscordProfile.objects.get(discord_user_id=discord_user_id)
+                user = DiscordProfile.objects.get(
+                    discord_user_id=discord_user_id)
             except DiscordProfile.DoesNotExist:
                 return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
 

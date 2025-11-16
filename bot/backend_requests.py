@@ -69,10 +69,20 @@ async def check_if_user_exists(user_id):
 
 async def respond_to_user(discord_user_id, user_input):
     try:
-        payload = {"discord_user_id": discord_user_id, "user_input": user_input}
+        payload = {"discord_user_id": discord_user_id,
+                   "user_input": user_input}
         async with aiohttp.ClientSession() as session:
             async with session.post(f'{backend_url}gemini/respond/', json=payload) as response:
                 return await response.json()
     except Exception as error:
         print('Responding to user failed silently: ', error)
-        
+
+
+async def save_user_history(user_id, user_message, schnack_response):
+    try:
+        payload = {"user": user_id, "user_message": user_message, "schnack_response": schnack_response}
+        async with aiohttp.ClientSession() as session:
+            async with session.post(f'{backend_url}user_history/', json=payload) as response:
+                return response.status
+    except Exception as error:
+        print('Saving user history failed silently: ', error)

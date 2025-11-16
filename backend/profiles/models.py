@@ -59,4 +59,11 @@ class DiscordProfile(models.Model):
     last_active_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"User {self.discord_user_id}"
+        return f"User: {self.discord_user_id}"
+
+
+class MessageHistory(models.Model):
+    user = models.ForeignKey(DiscordProfile, on_delete=models.CASCADE)
+    user_message = models.TextField()
+    schnack_response = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
