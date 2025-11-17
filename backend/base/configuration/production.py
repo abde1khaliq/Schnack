@@ -26,9 +26,9 @@ DATABASES = {
 
 
 INTERNAL_IPS = [
-    "127.0.0.1", "schnack.up.railway.app",
+    "127.0.0.1", "https://schnack.up.railway.app/",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://schnack.up.railway.app',
+    'https://schnack.up.railway.app/',
 ]

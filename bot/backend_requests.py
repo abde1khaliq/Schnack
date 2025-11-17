@@ -1,5 +1,6 @@
 import discord
 import aiohttp
+from decouple import config
 
 backend_url = 'https://schnack.up.railway.app/schnack_api/v1/'
 
