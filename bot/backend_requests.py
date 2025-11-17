@@ -1,7 +1,7 @@
 import discord
 import aiohttp
 
-backend_url = 'http://schnack.up.railway.app/schnack_api/v1/'
+backend_url = 'https://schnack.up.railway.app/schnack_api/v1/'
 
 
 async def get_mother_language_options():
