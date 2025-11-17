@@ -73,4 +73,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 AUTH_USER_MODEL = 'core.user'
-ALLOWED_HOSTS = ['.railway.app']
+ALLOWED_HOSTS = ['schnack.up.railway.app']
