@@ -19,7 +19,10 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600)
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL', default=''),
+        conn_max_age=600
+    )
 }
 
 
