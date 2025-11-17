@@ -67,13 +67,28 @@ client.user_history = defaultdict(
 @client.tree.command(name="setup", description="Set up your Schnack bot based on your preferences.", guild=GUILD_ID)
 async def setup(interaction: discord.Interaction):
     user_checker = await check_if_user_exists(interaction.user.id)
+
     if user_checker == 200:
-        await interaction.response.send_message('You have already set your preferences. use `/update-preferences` to update them.', ephemeral=True)
-    else:
+        await interaction.response.send_message(
+            'You have already set your preferences. Use `/update-preferences` to update them.',
+            ephemeral=True
+        )
+        return
+
+    try:
+        await interaction.response.defer(ephemeral=True)  # Gives you more time
         view = await PrefrencesView.create()
-        await interaction.response.send_message(embed=PreferenceEmbed, ephemeral=True, view=view)
+        await interaction.followup.send(embed=PreferenceEmbed, view=view)
         if interaction.guild:
             await interaction.followup.send(
-                "📬 Want to continue learning german? Just DM me!", ephemeral=True)
+                "📬 Want to continue learning German? Just DM me!",
+                ephemeral=True
+            )
+    except Exception as error:
+        print(f"⚠️ Setup command failed: {error}")
+        await interaction.followup.send(
+            "Something went wrong while setting up your preferences.",
+            ephemeral=True
+        )
 
 client.run(config('SCHNACK_BOT_TOKEN'))
