@@ -1,6 +1,5 @@
 import discord
 import aiohttp
-import json
 
 backend_url = 'http://schnack.up.railway.app/schnack_api/v1/'
 
