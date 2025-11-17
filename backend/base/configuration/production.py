@@ -27,5 +27,5 @@ DATABASES = {
 
 
 INTERNAL_IPS = [
-    "127.0.0.1",
+    "127.0.0.1", "schnack.up.railway.app",
 ]
