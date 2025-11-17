@@ -33,6 +33,7 @@ class GeminiEngine:
         user_input: str,
         formatted_history: str
     ) -> str:
+        print(formatted_history)
         prompt = f"""
         You are a casual German-speaking friend named Schnack chatting with {username} (userId: {discord_user_id} — do not mention this).
 

@@ -13,6 +13,8 @@ djangorestframework = "*"
 aiohttp = "*"
 google-generativeai = "*"
 google-genai = "*"
+whitenoise = "*"
+dj-database-url = "*"
 
 [dev-packages]
 

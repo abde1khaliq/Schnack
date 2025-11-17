@@ -1,5 +1,5 @@
 from rest_framework.decorators import action
-from rest_framework import viewsets, mixins, status
+from rest_framework import viewsets, mixins, status, permissions
 from rest_framework.response import Response
 from django.http import JsonResponse
 from .models import DiscordProfile, MessageHistory
@@ -32,24 +32,16 @@ def get_german_levels(request):
 
 
 class DiscordProfileViewset(
-    mixins.RetrieveModelMixin,
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
-    viewsets.GenericViewSet
-):
+        mixins.RetrieveModelMixin, mixins.CreateModelMixin,
+        mixins.UpdateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
     serializer_class = DiscordProfileSerializer
     queryset = DiscordProfile.objects.all()
 
 
 class UserHistoryViewSet(
-    mixins.RetrieveModelMixin,
-    mixins.CreateModelMixin,
-    mixins.ListModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
-    viewsets.GenericViewSet
-):
+        mixins.RetrieveModelMixin, mixins.CreateModelMixin,
+        mixins.ListModelMixin, mixins.UpdateModelMixin,
+        mixins.DestroyModelMixin, viewsets.GenericViewSet):
     serializer_class = UserHistorySerializer
     queryset = MessageHistory.objects.all()
 
@@ -69,7 +61,7 @@ class GeminiResponseViewSet(viewsets.GenericViewSet):
             user_message_history = (
                 MessageHistory.objects
                 .filter(user=discord_user_id)
-                .order_by('-created_at')[:10]
+                .order_by('created_at')[:50]
             )
 
             history = [
@@ -81,7 +73,8 @@ class GeminiResponseViewSet(viewsets.GenericViewSet):
             ]
 
             try:
-                user = DiscordProfile.objects.get(discord_user_id=discord_user_id)
+                user = DiscordProfile.objects.get(
+                    discord_user_id=discord_user_id)
             except DiscordProfile.DoesNotExist:
                 return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
 
