@@ -2,7 +2,7 @@ import discord
 import aiohttp
 from decouple import config
 
-backend_url = 'https://schnack.up.railway.app/schnack_api/v1/'
+backend_url = 'http://127.0.0.1:8000/schnack_api/v1/'
 
 
 async def get_mother_language_options():
